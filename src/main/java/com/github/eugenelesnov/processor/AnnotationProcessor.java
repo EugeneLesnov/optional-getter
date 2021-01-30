@@ -1,6 +1,7 @@
 package com.github.eugenelesnov.processor;
 
 import com.github.eugenelesnov.annotation.OptionalGetter;
+import com.google.auto.service.AutoService;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
@@ -16,6 +17,7 @@ import java.util.Set;
  */
 @SupportedAnnotationTypes({"com.github.com.github.eugenelesnov.annotation.OptionalGetter"})
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
+@AutoService(AnnotationProcessor.class)
 public class AnnotationProcessor extends AbstractProcessor {
 
     @Override
