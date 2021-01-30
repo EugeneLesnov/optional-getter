@@ -8,9 +8,12 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.ExecutableType;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Eugene Lesnov
@@ -26,16 +29,23 @@ public class AnnotationProcessor extends AbstractProcessor {
             return false;
         }
 
-        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(OptionalGetter.class);
+        var elements = new ArrayList<>(roundEnvironment.getElementsAnnotatedWith(OptionalGetter.class));
         elements.forEach(element -> {
-
-            OptionalGetter optionalGetter = element.getAnnotation(OptionalGetter.class);
-
             if (element.getKind().isField()) {
+
+                String className = ((TypeElement) elements.get(0)
+                        .getEnclosingElement()).getQualifiedName().toString();
+
+                Map<String, String> fieldMap = elements.stream().collect(Collectors.toMap(
+                        field -> field.getSimpleName().toString(),
+                        // obtaining the type
+                        field -> ((ExecutableType) field.asType())
+                                .getParameterTypes().get(0).toString()
+                ));
 
             }
         });
 
-        return false;
+        return true;
     }
 }
