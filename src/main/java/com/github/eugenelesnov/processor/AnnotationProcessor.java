@@ -7,6 +7,7 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.ExecutableType;
 import java.util.ArrayList;
@@ -30,20 +31,26 @@ public class AnnotationProcessor extends AbstractProcessor {
         var elements = new ArrayList<>(roundEnvironment.getElementsAnnotatedWith(OptionalGetter.class));
         elements.forEach(element -> {
             if (element.getKind().isField()) {
-
-                String className = ((TypeElement) elements.get(0)
-                        .getEnclosingElement()).getQualifiedName().toString();
-
-                Map<String, String> fieldMap = elements.stream().collect(Collectors.toMap(
-                        field -> field.getSimpleName().toString(),
-                        // obtaining the type
-                        field -> ((ExecutableType) field.asType())
-                                .getParameterTypes().get(0).toString()
-                ));
+                String className = obtainClassName(elements);
+                Map<String, String> fieldMap = obtainElementFields(elements);
 
             }
         });
 
         return true;
+    }
+
+    private Map<String, String> obtainElementFields(ArrayList<? extends Element> elements) {
+        return elements.stream().collect(Collectors.toMap(
+                field -> field.getSimpleName().toString(),
+                // obtaining the type
+                field -> ((ExecutableType) field.asType())
+                        .getParameterTypes().get(0).toString()
+        ));
+    }
+
+    private String obtainClassName(ArrayList<? extends Element> elements) {
+        return ((TypeElement) elements.get(0)
+                .getEnclosingElement()).getQualifiedName().toString();
     }
 }
