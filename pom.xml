@@ -9,7 +9,6 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <auto-service.version>1.0-rc7</auto-service.version>
         <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
