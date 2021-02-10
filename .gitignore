@@ -1,8 +1,19 @@
-.idea/
-*.iml
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### IntelliJ IDEA ###
+.idea
 *.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+.directory
 
-# Maven specific
-log/
-target/
-
+build-cache/
+logs/
+build/
